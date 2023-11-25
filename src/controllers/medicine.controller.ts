@@ -166,7 +166,6 @@ export default class MedicineControllers {
         });
       }
 
-      const userId = new ObjectId(requestTokenData.userId);
       const role = requestTokenData.role;
       // console.log(requestTokenData);
 
@@ -233,7 +232,6 @@ export default class MedicineControllers {
         });
       }
 
-      const userId = new ObjectId(requestTokenData.userId);
       const role = requestTokenData.role;
       // console.log(requestTokenData);
 

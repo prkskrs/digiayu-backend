@@ -27,6 +27,8 @@ import chatRoutes from "./routes/chat.routes";
 app.use(
   logger("short", {
     skip: (req, res) => {
+      console.log(res);
+
       return req.originalUrl === "/status";
     },
   }),
@@ -70,4 +72,5 @@ app.use(function onError(error, req, res, next) {
       ? new Error(JSON.stringify(error))
       : new Error(error),
   });
+  next();
 });

@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import Constants from "../../Constants";
 import { Database } from "../database/Database";
 import { Inject } from "typedi";
-import { Appointment, Doctor } from "../interfaces/db";
+import { Doctor } from "../interfaces/db";
 import { verifyToken } from "../util/auth";
 
 export default class DoctorControllers {
@@ -473,11 +473,9 @@ export default class DoctorControllers {
 
       const { weeklyAvailability } = req.body;
 
-      const updateDoctor = await this.database.updateById(
-        "doctor",
-        doctorExists?._id,
-        { weeklyAvailability: weeklyAvailability },
-      );
+      await this.database.updateById("doctor", doctorExists?._id, {
+        weeklyAvailability: weeklyAvailability,
+      });
       const updatedDoctor = await this.database.getOne(
         Constants.COLLECTIONS.DOCTOR,
         {

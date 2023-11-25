@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import Constants from "../../Constants";
 import { Database } from "../database/Database";
 import { Inject } from "typedi";
-import { Appointment, Patient } from "../interfaces/db";
+import { Patient } from "../interfaces/db";
 import { verifyToken } from "../util/auth";
 
 export default class PatientControllers {

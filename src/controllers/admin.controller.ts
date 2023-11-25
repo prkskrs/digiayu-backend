@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import Constants from "../../Constants";
 import { Database } from "../database/Database";
 import { Inject } from "typedi";
-import { Appointment, Doctor } from "../interfaces/db";
+import { Doctor } from "../interfaces/db";
 import { verifyToken } from "../util/auth";
 
 export default class AdminControllers {
@@ -36,7 +36,6 @@ export default class AdminControllers {
         });
       }
 
-      const userId = new ObjectId(requestTokenData.userId);
       const role = requestTokenData.role;
       // console.log(requestTokenData);
 
@@ -97,7 +96,6 @@ export default class AdminControllers {
         });
       }
 
-      const userId = new ObjectId(requestTokenData.userId);
       const role = requestTokenData.role;
       // console.log(requestTokenData);
 
@@ -158,7 +156,6 @@ export default class AdminControllers {
         });
       }
 
-      const userId = new ObjectId(requestTokenData.userId);
       const role = requestTokenData.role;
       // console.log(requestTokenData);
 
@@ -219,7 +216,6 @@ export default class AdminControllers {
         });
       }
 
-      const userId = new ObjectId(requestTokenData.userId);
       const role = requestTokenData.role;
       // console.log(requestTokenData);
 
@@ -287,7 +283,6 @@ export default class AdminControllers {
         });
       }
 
-      const userId = new ObjectId(requestTokenData.userId);
       const role = requestTokenData.role;
       // console.log(requestTokenData);
 
@@ -503,7 +498,6 @@ export default class AdminControllers {
         });
       }
 
-      const userId = new ObjectId(requestTokenData.userId);
       const role = requestTokenData.role;
 
       if (role !== "admin") {

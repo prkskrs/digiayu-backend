@@ -189,7 +189,6 @@ export class Database {
     try {
       let items;
       if (sortKey) {
-        // @ts-ignore
         items = db
           .collection(collection)
           .find(query)
@@ -233,7 +232,6 @@ export class Database {
     query: Filter<DbSchema[CollectionName]>,
   ) => {
     try {
-      // @ts-ignore
       const count = await db.collection(collection).find(query).count();
       return count;
     } catch (error) {

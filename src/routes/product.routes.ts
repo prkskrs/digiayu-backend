@@ -1,10 +1,10 @@
 import express from "express";
 import { Container } from "typedi";
 const router = express.Router();
-import RequestValidator from "../middlewares/validator";
-import requestSchemas from "./requestSchemas";
+// import RequestValidator from "../middlewares/validator";
+// import requestSchemas from "./requestSchemas";
 import AuthControllers from "../controllers/auth.controller";
-const authControllers = Container.get(AuthControllers);
+Container.get(AuthControllers);
 
 // router.post(
 //   '/signup',

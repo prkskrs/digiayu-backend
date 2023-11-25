@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import Constants from "../../Constants";
 import { Database } from "../database/Database";
 import { Inject } from "typedi";
-import { Appointment, Doctor } from "../interfaces/db";
+// import { Appointment, Doctor } from "../interfaces/db";
 import { verifyToken } from "../util/auth";
 
 export default class ChatController {
@@ -41,10 +41,9 @@ export default class ChatController {
       const userId = new ObjectId(requestTokenData.userId);
       // console.log(userId);
 
-      let doctor_id,
-        patient_id,
-        common_id = null;
-      const role = null;
+      let doctor_id, patient_id;
+      // common_id = null;
+      // const role = null;
 
       const patientExists = await this.database.getOne(
         Constants.COLLECTIONS.PATIENT,
@@ -164,9 +163,6 @@ export default class ChatController {
         });
       }
 
-      const userId = new ObjectId(requestTokenData.userId);
-
-      const condition = {};
       const chatId = req.params.id;
       console.log(chatId);
       const chat = await this.database.get("chat_message", {
@@ -217,10 +213,6 @@ export default class ChatController {
           message: "Invalid request",
         });
       }
-      // console.log(requestTokenData);
-
-      const userId = new ObjectId(requestTokenData.userId);
-      const role = requestTokenData.role;
       // console.log(requestTokenData);
 
       const chatExist = await this.database.getOne("chat", {
@@ -287,5 +279,5 @@ export default class ChatController {
     }
   };
 
-  public updateChat = async (req: Request, res: Response) => {};
+  // public updateChat = async (req: Request, res: Response) => {};
 }

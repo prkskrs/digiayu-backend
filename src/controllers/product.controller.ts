@@ -3,13 +3,13 @@ import { RequestWithUser } from "../interfaces/request";
 import { ObjectId } from "mongodb";
 import Constants from "../../Constants";
 import { Database } from "../database/Database";
-import {
-  createAcessToken,
-  createRefreshToken,
-  verifyToken,
-  createShortLivedToken,
-} from "../util/auth";
-import { hashPassword, comparePassword } from "../util/password";
+// import {
+//   createAcessToken,
+//   createRefreshToken,
+//   verifyToken,
+//   createShortLivedToken,
+// } from "../util/auth";
+// import { hashPassword, comparePassword } from "../util/password";
 
 import { Inject, Service } from "typedi";
 

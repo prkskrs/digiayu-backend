@@ -66,7 +66,7 @@ export default class DiagnosisControllers {
         appointment_id,
       );
 
-      const updatedAppointment = await this.database.updateById(
+      await this.database.updateById(
         "appointment",
         new ObjectId(appointment_id),
         { status: "diagnosed" },

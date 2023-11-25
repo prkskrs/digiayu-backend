@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import Constants from "../../Constants";
-import { Database, db } from "../database/Database";
+import { Database } from "../database/Database";
 import { Inject } from "typedi";
 import { Appointment } from "../interfaces/db";
 import { verifyToken } from "../util/auth";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 export default class AppointmentControllers {
   @Inject()
@@ -20,7 +20,6 @@ export default class AppointmentControllers {
         patient_details,
         questionnaire,
         meeting_link,
-        status,
         appointment_date,
         appointment_time,
       } = req.body;
@@ -97,7 +96,7 @@ export default class AppointmentControllers {
 
   public getAppointments = async (req: Request, res: Response) => {
     try {
-      const { status, dateFrom, dateTo, limit, skip } = req.query;
+      const { status, limit, skip } = req.query;
       const requestToken = req.headers["x-request-token"];
       if (!requestToken) {
         return res.status(400).json({
@@ -270,7 +269,6 @@ export default class AppointmentControllers {
         });
       }
 
-      const userId = new ObjectId(requestTokenData.userId);
       const role = requestTokenData.role;
 
       if (role !== "patient" && role !== "doctor") {
@@ -579,7 +577,7 @@ export default class AppointmentControllers {
 
   public zoomAuthorization = async (req: Request, res: Response) => {
     const clientId = "2UC2f8YvSyiQAGRGdwSWQ";
-    const clientSecret = "nC9sEBQC9FHHxUDJv36p5e3NP0dp4msF";
+    // const clientSecret = "nC9sEBQC9FHHxUDJv36p5e3NP0dp4msF";
     const redirectUri =
       "https://dev-api.digiayu.com/api/appointment/zoom/callback/6496ac0456af2725b193e9ca";
 
@@ -651,7 +649,7 @@ export default class AppointmentControllers {
           .json({ status: false, message: "Appointment not found" });
       }
 
-      const result = await this.database.updateById(
+      await this.database.updateById(
         "appointment",
         new ObjectId(appointmentId),
         { meeting_link: meetingLink },

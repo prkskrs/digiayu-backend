@@ -1,5 +1,5 @@
 import express from "express";
-import { Container } from "typedi";
+// import { Container } from "typedi";
 const router = express.Router();
 
 // import checkJwt from "../../middlewares/checkJwt";
