@@ -75,7 +75,7 @@ export default class DoctorControllers {
         Constants.COLLECTIONS.DOCTOR,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (!doctorExists) {
@@ -132,7 +132,7 @@ export default class DoctorControllers {
       const result = await this.database.updateById(
         "doctor",
         doctorExists?._id,
-        doctor
+        doctor,
       );
 
       return res.status(200).json({
@@ -180,7 +180,7 @@ export default class DoctorControllers {
         Constants.COLLECTIONS.DOCTOR,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (!doctorExists) {
@@ -210,7 +210,7 @@ export default class DoctorControllers {
       const condition = {};
       const doctors = await this.database.get(
         Constants.COLLECTIONS.DOCTOR,
-        condition
+        condition,
       );
 
       if (!doctors || doctors.length === 0) {
@@ -298,7 +298,7 @@ export default class DoctorControllers {
         Constants.COLLECTIONS.DOCTOR,
         {
           user_id: userId,
-        }
+        },
       );
 
       // console.log(doctorExists);
@@ -312,13 +312,13 @@ export default class DoctorControllers {
 
       const appointments = await this.database.get(
         Constants.COLLECTIONS.APPOINTMENT,
-        { doctor_id: doctorExists._id }
+        { doctor_id: doctorExists._id },
       );
 
       // console.log(appointments);
 
       const patientIds = appointments.map(
-        (appointment) => appointment.patient_id
+        (appointment) => appointment.patient_id,
       );
       const uniquePatientIds = [...new Set(patientIds)];
 
@@ -370,7 +370,7 @@ export default class DoctorControllers {
         Constants.COLLECTIONS.DOCTOR,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (!doctorExists) {
@@ -385,7 +385,7 @@ export default class DoctorControllers {
         Constants.COLLECTIONS.PATIENT,
         {
           _id: new ObjectId(patientId),
-        }
+        },
       );
 
       if (!patient) {
@@ -400,7 +400,7 @@ export default class DoctorControllers {
         {
           patient_id: new ObjectId(patientId),
           doctor_id: doctorExists._id,
-        }
+        },
       );
 
       const totalAppointment = appointments.length;
@@ -419,8 +419,6 @@ export default class DoctorControllers {
       return res.status(500).send("Internal Server Error");
     }
   };
-
-
 
   public createOrUpdateAvailability = async (req: Request, res: Response) => {
     try {
@@ -463,7 +461,7 @@ export default class DoctorControllers {
         Constants.COLLECTIONS.DOCTOR,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (!doctorExists) {
@@ -475,12 +473,16 @@ export default class DoctorControllers {
 
       const { weeklyAvailability } = req.body;
 
-      const updateDoctor = await this.database.updateById("doctor", doctorExists?._id, { weeklyAvailability: weeklyAvailability });
+      const updateDoctor = await this.database.updateById(
+        "doctor",
+        doctorExists?._id,
+        { weeklyAvailability: weeklyAvailability },
+      );
       const updatedDoctor = await this.database.getOne(
         Constants.COLLECTIONS.DOCTOR,
         {
           _id: doctorExists?._id,
-        }
+        },
       );
 
       return res.status(200).json({
@@ -488,7 +490,6 @@ export default class DoctorControllers {
         message: "Availability updated successfully",
         data: updatedDoctor.weeklyAvailability,
       });
-
     } catch (error) {
       console.error(error);
       return res.status(500).send({ message: "Internal Server Error" });
@@ -500,14 +501,13 @@ export default class DoctorControllers {
     const { date } = req.query;
     console.log(doctorId);
 
-
     try {
       // Get the doctor's weekly availability
       const doctor: Doctor | null = await this.database.getOne(
         Constants.COLLECTIONS.DOCTOR,
         {
           _id: new ObjectId(doctorId),
-        }
+        },
       );
 
       if (!doctor) {
@@ -516,9 +516,12 @@ export default class DoctorControllers {
 
       // Find the availability for the requested date
       const requestedDate = new Date(date as string);
-      const day = requestedDate.toLocaleDateString('en-US', { weekday: 'long' });
+      const day = requestedDate.toLocaleDateString("en-US", {
+        weekday: "long",
+      });
       const availability = doctor.weeklyAvailability.find((week) => {
-        const weekDay = week.day.charAt(0).toUpperCase() + week.day.slice(1).toLowerCase();
+        const weekDay =
+          week.day.charAt(0).toUpperCase() + week.day.slice(1).toLowerCase();
         return weekDay === day;
       })?.fullDayAvailability;
 
@@ -540,7 +543,7 @@ export default class DoctorControllers {
         const sessionStartTime = session.startTime.toString();
         return !existingAppointments.find(
           (appointment) =>
-            appointment.appointment_time.toString() === sessionStartTime
+            appointment.appointment_time.toString() === sessionStartTime,
         );
       });
 

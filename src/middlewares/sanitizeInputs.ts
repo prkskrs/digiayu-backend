@@ -1,19 +1,19 @@
-import validator from 'validator';
+import validator from "validator";
 
 const recursive_sanitize_obj = (obj) => {
   if (Array.isArray(obj)) {
     for (let i = 0; i < obj.length; i++) {
-      if (typeof obj[i] === 'object') {
+      if (typeof obj[i] === "object") {
         recursive_sanitize_obj(obj[i]);
-      } else if (typeof obj[i] === 'string') {
+      } else if (typeof obj[i] === "string") {
         obj[i] = validator.escape(obj[i]);
       }
     }
   } else {
     for (const key in obj) {
-      if (typeof obj[key] === 'object') {
+      if (typeof obj[key] === "object") {
         recursive_sanitize_obj(obj[key]);
-      } else if (typeof obj[key] === 'string') {
+      } else if (typeof obj[key] === "string") {
         obj[key] = validator.escape(obj[key]);
       }
     }
@@ -26,11 +26,11 @@ const sanitize_inputs = (keys: string[]) => (req, res, next) => {
   // const regex = /[^a-zA-Z0-9äöüÄÖÜ]*/gm;
 
   for (const key of keys) {
-    if (typeof req.body[key] === 'boolean') {
+    if (typeof req.body[key] === "boolean") {
       continue;
-    } else if (typeof req.body[key] === 'object') {
+    } else if (typeof req.body[key] === "object") {
       req.body[key] = recursive_sanitize_obj(req.body[key]);
-    } else if (typeof req.body[key] === 'string') {
+    } else if (typeof req.body[key] === "string") {
       req.body[key] = validator.escape(req.body[key]);
     }
   }

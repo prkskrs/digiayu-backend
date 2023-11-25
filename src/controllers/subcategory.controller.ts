@@ -1,37 +1,38 @@
-import { Request, Response } from 'express';
-import { RequestWithCategory } from '../interfaces/request';
-import { ObjectId } from 'mongodb';
-import Constants from '../../Constants';
-import { Database } from '../database/Database';
+import { Request, Response } from "express";
+import { RequestWithCategory } from "../interfaces/request";
+import { ObjectId } from "mongodb";
+import Constants from "../../Constants";
+import { Database } from "../database/Database";
 import {
   createAcessToken,
   createRefreshToken,
   verifyToken,
   createShortLivedToken,
-} from '../util/auth';
+} from "../util/auth";
 
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from "typedi";
 
 @Service()
 export default class CategoryControllers {
   @Inject()
   private database: Database;
 
-  public create = async (req : RequestWithCategory , res: Response) => {
-    
+  public create = async (req: RequestWithCategory, res: Response) => {
     const { name, time_required } = req.body;
 
-   const productNew = {
-    name,
-   time_required: time_required,
+    const productNew = {
+      name,
+      time_required: time_required,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    const category = await this.database.add(Constants.COLLECTIONS.CATEGORY, {...productNew});
+    const category = await this.database.add(Constants.COLLECTIONS.CATEGORY, {
+      ...productNew,
+    });
 
     return res.status(200).json({
       success: true,
-      message: 'Category created successfully',
+      message: "Category created successfully",
       data: category,
     });
   };
@@ -61,7 +62,7 @@ export default class CategoryControllers {
 
   public list = async (req: Request, res: Response) => {
     const count = await this.database.getCount(Constants.COLLECTIONS.CATEGORY, {
-    //   status: 'available',
+      //   status: 'available',
     });
 
     const page = parseInt(req.query.page as string) || 1;
@@ -74,7 +75,7 @@ export default class CategoryControllers {
       {
         // status: 'available',
       },
-      'createdAt',
+      "createdAt",
       false,
       limit,
       skip,
@@ -86,7 +87,7 @@ export default class CategoryControllers {
 
     return res.status(200).json({
       success: true,
-      message: 'Category fetched successfully',
+      message: "Category fetched successfully",
       data: category,
       pagination: {
         currentPage: page,
@@ -99,25 +100,28 @@ export default class CategoryControllers {
   };
   public get = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const product = await this.database.getById(Constants.COLLECTIONS.PRODUCT, id);
+    const product = await this.database.getById(
+      Constants.COLLECTIONS.PRODUCT,
+      id,
+    );
     if (!product) {
       return res.status(400).json({
         success: false,
-        message: 'Product not found',
+        message: "Product not found",
       });
     }
     return res.status(200).json({
       success: true,
-      message: 'Product fetched successfully',
+      message: "Product fetched successfully",
       data: product,
     });
   };
   public search = async (req: Request, res: Response) => {
     const search = req.query.query as string;
     const { filters } = req.body;
-    const regex = new RegExp(search, 'i');
+    const regex = new RegExp(search, "i");
     const query = {
-      status: 'available',
+      status: "available",
       $or: [{ name: { $regex: regex } }, { description: { $regex: regex } }],
     } as any;
 
@@ -142,7 +146,10 @@ export default class CategoryControllers {
       }
     }
 
-    const count = await this.database.getCount(Constants.COLLECTIONS.PRODUCT, query);
+    const count = await this.database.getCount(
+      Constants.COLLECTIONS.PRODUCT,
+      query,
+    );
 
     const page = parseInt(req.query.page as string) || 1;
     let limit = parseInt(req.query.limit as string) || 20;
@@ -152,7 +159,7 @@ export default class CategoryControllers {
     const products = await this.database.get(
       Constants.COLLECTIONS.PRODUCT,
       query,
-      'createdAt',
+      "createdAt",
       false,
       limit,
       skip,
@@ -167,7 +174,7 @@ export default class CategoryControllers {
 
     return res.status(200).json({
       success: true,
-      message: 'Products fetched successfully',
+      message: "Products fetched successfully",
       data: products,
       pagination: {
         currentPage: page,

@@ -56,7 +56,7 @@ export default class AppointmentControllers {
         Constants.COLLECTIONS.PATIENT,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (!patientExists) {
@@ -134,7 +134,7 @@ export default class AppointmentControllers {
         Constants.COLLECTIONS.PATIENT,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (patientExists) {
@@ -146,7 +146,7 @@ export default class AppointmentControllers {
         Constants.COLLECTIONS.DOCTOR,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (doctorExists) {
@@ -334,7 +334,7 @@ export default class AppointmentControllers {
 
       const appointment = await this.database.aggregate(
         "appointment",
-        pipeline
+        pipeline,
       );
 
       if (!appointment || appointment.length === 0) {
@@ -392,7 +392,7 @@ export default class AppointmentControllers {
         Constants.COLLECTIONS.USER,
         {
           _id: userId,
-        }
+        },
       );
       // console.log(userExists.role);
 
@@ -468,7 +468,7 @@ export default class AppointmentControllers {
       const result = await this.database.updateById(
         "appointment",
         new ObjectId(id),
-        update
+        update,
       );
       const updatedAppointment = await this.database.getById("appointment", id);
 
@@ -489,7 +489,6 @@ export default class AppointmentControllers {
       res.status(500).send({ message: "Failed to update appointment" });
     }
   };
-
 
   // public generateZoomMeetingLink = async (req: Request, res: Response) => {
   //   const zoomAuthUrl = 'https://zoom.us/oauth/authorize';
@@ -522,7 +521,6 @@ export default class AppointmentControllers {
   //     });
 
   //     console.log(response.data);
-
 
   //     const { access_token } = response.data;
 
@@ -563,9 +561,7 @@ export default class AppointmentControllers {
 
   //     console.log(zoomResponse.data);
 
-
   //     const { join_url } = zoomResponse.data;
-
 
   //     res.send(join_url);
   //   } catch (error) {
@@ -582,13 +578,16 @@ export default class AppointmentControllers {
   // };
 
   public zoomAuthorization = async (req: Request, res: Response) => {
-    const clientId = '2UC2f8YvSyiQAGRGdwSWQ';
-    const clientSecret = 'nC9sEBQC9FHHxUDJv36p5e3NP0dp4msF';
-    const redirectUri = 'https://dev-api.digiayu.com/api/appointment/zoom/callback/6496ac0456af2725b193e9ca';
+    const clientId = "2UC2f8YvSyiQAGRGdwSWQ";
+    const clientSecret = "nC9sEBQC9FHHxUDJv36p5e3NP0dp4msF";
+    const redirectUri =
+      "https://dev-api.digiayu.com/api/appointment/zoom/callback/6496ac0456af2725b193e9ca";
 
-    const authorizationUrl = `https://zoom.us/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
-    return res.redirect(authorizationUrl)
-  }
+    const authorizationUrl = `https://zoom.us/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
+      redirectUri,
+    )}`;
+    return res.redirect(authorizationUrl);
+  };
 
   public zoomCallback = async (req: Request, res: Response) => {
     const code = req.query.code;
@@ -597,43 +596,54 @@ export default class AppointmentControllers {
 
     try {
       // Exchange authorization code for an access token
-      const tokenResponse = await axios.post('https://zoom.us/oauth/token', null, {
-        params: {
-          grant_type: 'authorization_code',
-          code,
-          redirect_uri: "https://dev-api.digiayu.com/api/appointment/zoom/callback/6496ac0456af2725b193e9ca",
+      const tokenResponse = await axios.post(
+        "https://zoom.us/oauth/token",
+        null,
+        {
+          params: {
+            grant_type: "authorization_code",
+            code,
+            redirect_uri:
+              "https://dev-api.digiayu.com/api/appointment/zoom/callback/6496ac0456af2725b193e9ca",
+          },
+          auth: {
+            username: "2UC2f8YvSyiQAGRGdwSWQ",
+            password: "nC9sEBQC9FHHxUDJv36p5e3NP0dp4msF",
+          },
         },
-        auth: {
-          username: "2UC2f8YvSyiQAGRGdwSWQ",
-          password: "nC9sEBQC9FHHxUDJv36p5e3NP0dp4msF",
-        },
-      });
+      );
 
       const accessToken = tokenResponse.data.access_token;
       console.log(accessToken);
 
-
       // Use the access token to make Zoom API requests
       // Here's an example of creating a new meeting link
-      const createMeetingResponse = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
-        topic: 'My New Meeting',
-        type: 1,
-        settings: {
-          host_video: true,
-          participant_video: true,
+      const createMeetingResponse = await axios.post(
+        "https://api.zoom.us/v2/users/me/meetings",
+        {
+          topic: "My New Meeting",
+          type: 1,
+          settings: {
+            host_video: true,
+            participant_video: true,
+          },
         },
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
-      });
+      );
 
       console.log(createMeetingResponse.data);
 
       const meetingLink = createMeetingResponse.data.join_url;
       console.log(meetingLink);
 
-      const appointment = await this.database.getById("appointment", appointmentId);
+      const appointment = await this.database.getById(
+        "appointment",
+        appointmentId,
+      );
 
       if (!appointment) {
         return res
@@ -644,19 +654,16 @@ export default class AppointmentControllers {
       const result = await this.database.updateById(
         "appointment",
         new ObjectId(appointmentId),
-        { meeting_link: meetingLink }
+        { meeting_link: meetingLink },
       );
 
       return res.status(200).json({
         message: "Meet Link Added",
-        data: meetingLink
+        data: meetingLink,
       });
-
     } catch (error) {
-      console.error('Error during OAuth callback:', error);
-      res.status(500).send('OAuth callback failed');
+      console.error("Error during OAuth callback:", error);
+      res.status(500).send("OAuth callback failed");
     }
-  }
-};
-
-
+  };
+}

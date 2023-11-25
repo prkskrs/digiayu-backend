@@ -7,23 +7,25 @@ import DiagnosisController from "../controllers/diagnosis.controller";
 const diagnosisController = Container.get(DiagnosisController);
 
 router.put(
-    "/:appointmentId",
-    RequestValidator(requestSchemas.diagnosisRoutesSchemas.createDiagnosis.body,
-        "body"),
-    RequestValidator(
-        requestSchemas.diagnosisRoutesSchemas.createDiagnosis.headers,
-        "headers"
-    ),
-    diagnosisController.createOrUpdateDiagnosis
+  "/:appointmentId",
+  RequestValidator(
+    requestSchemas.diagnosisRoutesSchemas.createDiagnosis.body,
+    "body",
+  ),
+  RequestValidator(
+    requestSchemas.diagnosisRoutesSchemas.createDiagnosis.headers,
+    "headers",
+  ),
+  diagnosisController.createOrUpdateDiagnosis,
 );
 
 router.get(
-    "/appointment/:id",
-    RequestValidator(
-        requestSchemas.diagnosisRoutesSchemas.createDiagnosis.headers,
-        "headers"
-    ),
-    diagnosisController.getDiagnosisById
+  "/appointment/:id",
+  RequestValidator(
+    requestSchemas.diagnosisRoutesSchemas.createDiagnosis.headers,
+    "headers",
+  ),
+  diagnosisController.getDiagnosisById,
 );
 
 export default router;

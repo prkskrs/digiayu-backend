@@ -11,53 +11,58 @@ router.put(
   RequestValidator(requestSchemas.doctorRoutesSchemas.updateMe.body, "body"),
   RequestValidator(
     requestSchemas.authRoutesSchemas.signupDoctor.headers,
-    "headers"
+    "headers",
   ),
-  doctorControllers.updateMe
+  doctorControllers.updateMe,
 );
 
 router.get(
   "/getMe",
   RequestValidator(
     requestSchemas.authRoutesSchemas.signupDoctor.headers,
-    "headers"
+    "headers",
   ),
-  doctorControllers.getMe
+  doctorControllers.getMe,
 );
 
 router.get(
   "/patients",
-  RequestValidator(requestSchemas.doctorRoutesSchemas.getPatients.headers, "headers"),
-  doctorControllers.getPatients
+  RequestValidator(
+    requestSchemas.doctorRoutesSchemas.getPatients.headers,
+    "headers",
+  ),
+  doctorControllers.getPatients,
 );
 
 router.get(
   "/patients/:id",
-  RequestValidator(requestSchemas.doctorRoutesSchemas.getPatients.headers, "headers"),
-  doctorControllers.getPatientById
+  RequestValidator(
+    requestSchemas.doctorRoutesSchemas.getPatients.headers,
+    "headers",
+  ),
+  doctorControllers.getPatientById,
 );
 
-
-router.get(
-  "/",
-  doctorControllers.getAllDoctor
-);
+router.get("/", doctorControllers.getAllDoctor);
 
 router.patch(
   "/set-availability/",
-  RequestValidator(requestSchemas.doctorRoutesSchemas.getDoctor.headers, "headers"),
-  doctorControllers.createOrUpdateAvailability
+  RequestValidator(
+    requestSchemas.doctorRoutesSchemas.getDoctor.headers,
+    "headers",
+  ),
+  doctorControllers.createOrUpdateAvailability,
 );
 
 router.get(
   "/get-available-slots/:doctorId/",
-  RequestValidator(requestSchemas.doctorRoutesSchemas.getDoctor.headers, "headers"),
-  doctorControllers.getAvailabilityTimeSlots
+  RequestValidator(
+    requestSchemas.doctorRoutesSchemas.getDoctor.headers,
+    "headers",
+  ),
+  doctorControllers.getAvailabilityTimeSlots,
 );
 
-router.get(
-  "/:id",
-  doctorControllers.getDoctorById
-);
+router.get("/:id", doctorControllers.getDoctorById);
 
 export default router;

@@ -210,7 +210,7 @@ const bookAppointmentSchema = Joi.object()
       "pending",
       "approved",
       "cancelled",
-      "rescheduled"
+      "rescheduled",
     ),
     date: Joi.date(),
     time: Joi.string(),
@@ -227,7 +227,7 @@ const updateAppointmentSchema = Joi.object()
       "pending",
       "approved",
       "cancelled",
-      "rescheduled"
+      "rescheduled",
     ),
     date: Joi.date(),
     time: Joi.string(),
@@ -294,7 +294,7 @@ const diagnosisSchema = Joi.object()
               dosage: Joi.string(),
               duration: Joi.string(),
               remarks: Joi.string(),
-            })
+            }),
           )
           .optional(),
       })
@@ -420,7 +420,7 @@ const requestSchemas = {
   patientRoutesSchemas,
   diagnosisRoutesSchemas,
   medicineRoutesSchemas,
-  chatRoutesSchemas
+  chatRoutesSchemas,
 };
 
 export default requestSchemas;

@@ -29,7 +29,7 @@ app.use(
     skip: (req, res) => {
       return req.originalUrl === "/status";
     },
-  })
+  }),
 );
 
 app.get("/", (req: Request, res: Response) => {
@@ -37,9 +37,8 @@ app.get("/", (req: Request, res: Response) => {
     uptime: process.uptime(),
     message: "Catalyst's API health check :: GOOD",
     timestamp: Date.now(),
-  })
+  });
 });
-
 
 app.get("/status", (req: Request, res: Response) => {
   res.status(200).end();

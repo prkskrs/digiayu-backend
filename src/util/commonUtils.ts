@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 export function convertToBase64(x: string): string {
-  const bufferObj = Buffer.from(x, 'utf8');
-  const base64String = bufferObj.toString('base64');
+  const bufferObj = Buffer.from(x, "utf8");
+  const base64String = bufferObj.toString("base64");
   return base64String;
 }
 /**
@@ -19,8 +19,8 @@ export function wait(time: number): Promise<null> {
 
 export function removeTralingSlashFromUrl(url: string) {
   // function to check if the user submits url with backslash
-  if (url.endsWith('/')) {
-    return url.slice(0, url.lastIndexOf('/'));
+  if (url.endsWith("/")) {
+    return url.slice(0, url.lastIndexOf("/"));
   }
   return url;
 }
@@ -34,10 +34,10 @@ export function isUrlValid(url: string) {
   // 5. https://www.google.com
 
   const pattern = new RegExp(
-    '^(https?:\\/\\/)?' +
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*',
+    "^(https?:\\/\\/)?" +
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*",
   ); // port and path
 
   if (!pattern.test(url)) {
@@ -47,7 +47,7 @@ export function isUrlValid(url: string) {
 }
 
 export const toTitleCase = (name: string) => {
-  if (!name) return '';
+  if (!name) return "";
   return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 };
 
@@ -65,14 +65,14 @@ export function addHoursInCurrentDT(h: number) {
 
 export function getUTCStringDate(timestamp) {
   const dd = new Date(timestamp).toUTCString();
-  if (dd !== 'Invalid Date') {
-    const ddArr = dd.split(' ');
+  if (dd !== "Invalid Date") {
+    const ddArr = dd.split(" ");
     return ddArr
       .splice(0, 4)
-      .join(' ')
+      .join(" ")
       .concat(` ${ddArr[ddArr.length - 1]}`);
   }
-  return '-';
+  return "-";
 }
 
 export function generateRandomNumber(min: number, max: number) {
@@ -84,8 +84,9 @@ export function generateRandomNumber(min: number, max: number) {
 }
 
 export function generateRandomString(length = 10) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -102,13 +103,13 @@ export function generateCode(orgIntegrationId: string) {
 
   let payload = {
     orgIntegrationId,
-    type: 'custom',
+    type: "custom",
     startDate,
     endDate,
   };
 
   let code = jwt.sign(payload, process.env.SYNC_JWT_SECRET, {
-    expiresIn: '15d',
+    expiresIn: "15d",
   });
   codes.push(code);
 
@@ -117,13 +118,13 @@ export function generateCode(orgIntegrationId: string) {
     startDate = getPreviousMonthDate(startDate);
     payload = {
       orgIntegrationId,
-      type: 'custom',
+      type: "custom",
       startDate,
       endDate,
       isBackwardSync: true,
     } as any;
     code = jwt.sign(payload, process.env.SYNC_JWT_SECRET, {
-      expiresIn: '15d',
+      expiresIn: "15d",
     });
     codes.push(code);
   }

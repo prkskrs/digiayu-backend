@@ -1,4 +1,13 @@
 {
   "singleQuote": false,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "quoteProps": "consistent",
+  "overrides": [
+    {
+      "files": ["*.html", "*.json"],
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ]
 }

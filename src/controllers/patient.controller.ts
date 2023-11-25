@@ -12,7 +12,8 @@ export default class PatientControllers {
 
   public updateMe = async (req: Request, res: Response) => {
     try {
-      const { name, email, mobile, dob, gender, avatar, blood_group } = req.body;
+      const { name, email, mobile, dob, gender, avatar, blood_group } =
+        req.body;
 
       const requestToken = req.headers["x-request-token"];
       if (!requestToken) {
@@ -48,7 +49,7 @@ export default class PatientControllers {
         Constants.COLLECTIONS.PATIENT,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (!patientExists) {
@@ -74,7 +75,7 @@ export default class PatientControllers {
       const result = await this.database.updateById(
         "patient",
         patientExists?._id,
-        patient
+        patient,
       );
       return res.status(200).json({
         success: true,
@@ -123,7 +124,7 @@ export default class PatientControllers {
         Constants.COLLECTIONS.PATIENT,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (!patient) {
@@ -145,7 +146,6 @@ export default class PatientControllers {
       return res.status(500).send({ message: "Internal Server Error" });
     }
   };
-
 
   public getAllPatientForDoctor = async (req: Request, res: Response) => {
     try {
@@ -177,12 +177,9 @@ export default class PatientControllers {
 
       const userId = new ObjectId(requestTokenData.userId);
 
-      const userRole = await this.database.getOne(
-        Constants.COLLECTIONS.USER,
-        {
-          _id: userId,
-        }
-      );
+      const userRole = await this.database.getOne(Constants.COLLECTIONS.USER, {
+        _id: userId,
+      });
 
       if (!userRole) {
         return res.status(404).json({
@@ -199,12 +196,9 @@ export default class PatientControllers {
         });
       }
 
-      const doctor = await this.database.getOne(
-        Constants.COLLECTIONS.DOCTOR,
-        {
-          user_id: userId,
-        }
-      );
+      const doctor = await this.database.getOne(Constants.COLLECTIONS.DOCTOR, {
+        user_id: userId,
+      });
 
       if (!doctor) {
         return res.status(404).json({
@@ -215,20 +209,24 @@ export default class PatientControllers {
 
       const appointments = await this.database.get(
         "appointment",
-        { doctor_id: doctor._id } // filter appointments by doctor_id
+        { doctor_id: doctor._id }, // filter appointments by doctor_id
       );
 
-      const patientIds = appointments.map(appointment => appointment.patient_id);
+      const patientIds = appointments.map(
+        (appointment) => appointment.patient_id,
+      );
       const patients = await this.database.get(
         "patient",
-        { _id: { $in: patientIds } } // filter patients by their IDs
+        { _id: { $in: patientIds } }, // filter patients by their IDs
       );
 
-      const patientsWithAppointments = patients.map(patient => {
-        const patientAppointments = appointments.filter(appointment => appointment.patient_id.equals(patient._id));
+      const patientsWithAppointments = patients.map((patient) => {
+        const patientAppointments = appointments.filter((appointment) =>
+          appointment.patient_id.equals(patient._id),
+        );
         return {
           patient,
-          appointments: patientAppointments
+          appointments: patientAppointments,
         };
       });
 
@@ -237,11 +235,9 @@ export default class PatientControllers {
         message: `All Patients for doctor ${userId}`,
         data: patientsWithAppointments,
       });
-
     } catch (error) {
       console.error(error);
       return res.status(500).send({ message: "Internal Server Error" });
     }
   };
-
-};
+}

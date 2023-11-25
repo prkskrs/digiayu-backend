@@ -1,17 +1,17 @@
-import { Request, Response } from 'express';
-import { RequestWithUser } from '../interfaces/request';
-import { ObjectId } from 'mongodb';
-import Constants from '../../Constants';
-import { Database } from '../database/Database';
+import { Request, Response } from "express";
+import { RequestWithUser } from "../interfaces/request";
+import { ObjectId } from "mongodb";
+import Constants from "../../Constants";
+import { Database } from "../database/Database";
 import {
   createAcessToken,
   createRefreshToken,
   verifyToken,
   createShortLivedToken,
-} from '../util/auth';
-import { hashPassword, comparePassword } from '../util/password';
+} from "../util/auth";
+import { hashPassword, comparePassword } from "../util/password";
 
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from "typedi";
 
 @Service()
 export default class ProductControllers {
@@ -19,13 +19,23 @@ export default class ProductControllers {
   private database: Database;
 
   public create = async (req: RequestWithUser, res: Response) => {
-    const { name, price, description, image, category_name, sub_category_name, status, category_id, sub_category_id } = req.body;
+    const {
+      name,
+      price,
+      description,
+      image,
+      category_name,
+      sub_category_name,
+      status,
+      category_id,
+      sub_category_id,
+    } = req.body;
 
     const productNew = {
       name,
       price,
       description,
-      status: status ? status : 'available',
+      status: status ? status : "available",
       image,
       category_id: new ObjectId(category_id),
       category_name: category_name,
@@ -36,11 +46,13 @@ export default class ProductControllers {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    const product = await this.database.add(Constants.COLLECTIONS.PRODUCT, { ...productNew });
+    const product = await this.database.add(Constants.COLLECTIONS.PRODUCT, {
+      ...productNew,
+    });
 
     return res.status(200).json({
       success: true,
-      message: 'Product created successfully',
+      message: "Product created successfully",
       data: product,
     });
   };
@@ -70,7 +82,7 @@ export default class ProductControllers {
 
   public list = async (req: Request, res: Response) => {
     const count = await this.database.getCount(Constants.COLLECTIONS.PRODUCT, {
-      status: 'available',
+      status: "available",
     });
 
     const page = parseInt(req.query.page as string) || 1;
@@ -81,9 +93,9 @@ export default class ProductControllers {
     const products = await this.database.get(
       Constants.COLLECTIONS.PRODUCT,
       {
-        status: 'available',
+        status: "available",
       },
-      'createdAt',
+      "createdAt",
       false,
       limit,
       skip,
@@ -98,7 +110,7 @@ export default class ProductControllers {
 
     return res.status(200).json({
       success: true,
-      message: 'Products fetched successfully',
+      message: "Products fetched successfully",
       data: products,
       pagination: {
         currentPage: page,
@@ -111,25 +123,28 @@ export default class ProductControllers {
   };
   public get = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const product = await this.database.getById(Constants.COLLECTIONS.PRODUCT, id);
+    const product = await this.database.getById(
+      Constants.COLLECTIONS.PRODUCT,
+      id,
+    );
     if (!product) {
       return res.status(400).json({
         success: false,
-        message: 'Product not found',
+        message: "Product not found",
       });
     }
     return res.status(200).json({
       success: true,
-      message: 'Product fetched successfully',
+      message: "Product fetched successfully",
       data: product,
     });
   };
   public search = async (req: Request, res: Response) => {
     const search = req.query.query as string;
     const { filters } = req.body;
-    const regex = new RegExp(search, 'i');
+    const regex = new RegExp(search, "i");
     const query = {
-      status: 'available',
+      status: "available",
       $or: [{ name: { $regex: regex } }, { description: { $regex: regex } }],
     } as any;
 
@@ -154,7 +169,10 @@ export default class ProductControllers {
       }
     }
 
-    const count = await this.database.getCount(Constants.COLLECTIONS.PRODUCT, query);
+    const count = await this.database.getCount(
+      Constants.COLLECTIONS.PRODUCT,
+      query,
+    );
 
     const page = parseInt(req.query.page as string) || 1;
     let limit = parseInt(req.query.limit as string) || 20;
@@ -164,7 +182,7 @@ export default class ProductControllers {
     const products = await this.database.get(
       Constants.COLLECTIONS.PRODUCT,
       query,
-      'createdAt',
+      "createdAt",
       false,
       limit,
       skip,
@@ -179,7 +197,7 @@ export default class ProductControllers {
 
     return res.status(200).json({
       success: true,
-      message: 'Products fetched successfully',
+      message: "Products fetched successfully",
       data: products,
       pagination: {
         currentPage: page,

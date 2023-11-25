@@ -1,18 +1,18 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 export const createAcessToken = (payload: any) => {
   payload = {
     ...payload,
-    type: 'access',
+    type: "access",
   };
   return jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: '1d',
+    expiresIn: "1d",
   });
 };
 
-export const verifyToken = (token: string, type?: 'access' | 'refresh') => {
+export const verifyToken = (token: string, type?: "access" | "refresh") => {
   try {
-    if (type === 'refresh') {
+    if (type === "refresh") {
       return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
     } else return jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
@@ -24,19 +24,19 @@ export const verifyToken = (token: string, type?: 'access' | 'refresh') => {
 export const createRefreshToken = (payload: any) => {
   payload = {
     ...payload,
-    type: 'refresh',
+    type: "refresh",
   };
   return jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
-    expiresIn: '7d',
+    expiresIn: "7d",
   });
 };
 
 export const createShortLivedToken = (payload: any) => {
   payload = {
     ...payload,
-    type: 'short-lived',
+    type: "short-lived",
   };
   return jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: '15m',
+    expiresIn: "15m",
   });
 };

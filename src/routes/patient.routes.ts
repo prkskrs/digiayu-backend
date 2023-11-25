@@ -11,18 +11,18 @@ router.put(
   RequestValidator(requestSchemas.patientRoutesSchemas.updateMe.body, "body"),
   RequestValidator(
     requestSchemas.authRoutesSchemas.signupDoctor.headers,
-    "headers"
+    "headers",
   ),
-  patientControllers.updateMe
+  patientControllers.updateMe,
 );
 
 router.get(
   "/getMe",
   RequestValidator(
     requestSchemas.authRoutesSchemas.signupDoctor.headers,
-    "headers"
+    "headers",
   ),
-  patientControllers.getMe
+  patientControllers.getMe,
 );
 
 // For Doctors
@@ -30,9 +30,9 @@ router.get(
   "/",
   RequestValidator(
     requestSchemas.authRoutesSchemas.signupDoctor.headers,
-    "headers"
+    "headers",
   ),
-  patientControllers.getAllPatientForDoctor
+  patientControllers.getAllPatientForDoctor,
 );
 
 export default router;

@@ -1,4 +1,4 @@
-import { wait } from './commonUtils';
+import { wait } from "./commonUtils";
 
 export default function retryGenerator(
   mainFun: () => any,
@@ -13,12 +13,12 @@ export default function retryGenerator(
     const res = await mainFun();
 
     if (errorConditionFun(res)) {
-      console.error('error', res);
+      console.error("error", res);
       if (currentTry <= retryCount) {
         console.log(
-          'retrying... currentTry->',
+          "retrying... currentTry->",
           currentTry,
-          'with wait period of->',
+          "with wait period of->",
           currentWaitPeriod,
         );
         currentTry++;
@@ -26,7 +26,7 @@ export default function retryGenerator(
         currentWaitPeriod = currentWaitPeriod * factor;
         await retry();
       } else {
-        console.log('retrycount exhausted. currentTry->', currentTry);
+        console.log("retrycount exhausted. currentTry->", currentTry);
         return res;
       }
     }

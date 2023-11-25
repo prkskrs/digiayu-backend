@@ -1,9 +1,9 @@
-import express from 'express';
-import { Container } from 'typedi';
+import express from "express";
+import { Container } from "typedi";
 const router = express.Router();
-import RequestValidator from '../middlewares/validator';
-import requestSchemas from './requestSchemas';
-import AuthControllers from '../controllers/auth.controller';
+import RequestValidator from "../middlewares/validator";
+import requestSchemas from "./requestSchemas";
+import AuthControllers from "../controllers/auth.controller";
 const authControllers = Container.get(AuthControllers);
 
 // router.post(

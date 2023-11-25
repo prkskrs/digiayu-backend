@@ -7,7 +7,7 @@ import axios, {
 
 export async function makeApiCall(
   requestConfig: AxiosRequestConfig,
-  options?: { includeHeaders?: boolean; adapter?: AxiosAdapter }
+  options?: { includeHeaders?: boolean; adapter?: AxiosAdapter },
 ) {
   try {
     let response: AxiosResponse;

@@ -7,37 +7,36 @@ import MedicineController from "../controllers/medicine.controller";
 const medicineController = Container.get(MedicineController);
 
 router.put(
-    "/",
-    RequestValidator(requestSchemas.medicineRoutesSchemas.createOrUpdateMedicine.body,
-        "body"),
-    RequestValidator(
-        requestSchemas.medicineRoutesSchemas.createOrUpdateMedicine.headers,
-        "headers"
-    ),
-    medicineController.createOrUpdateMedicine
+  "/",
+  RequestValidator(
+    requestSchemas.medicineRoutesSchemas.createOrUpdateMedicine.body,
+    "body",
+  ),
+  RequestValidator(
+    requestSchemas.medicineRoutesSchemas.createOrUpdateMedicine.headers,
+    "headers",
+  ),
+  medicineController.createOrUpdateMedicine,
 );
 
-router.get(
-    "/",
-    medicineController.getAllMedicine
-);
+router.get("/", medicineController.getAllMedicine);
 
 router.get(
-    "/:medicineId",
-    RequestValidator(
-        requestSchemas.medicineRoutesSchemas.createOrUpdateMedicine.headers,
-        "headers"
-    ),
-    medicineController.getMedicineById
+  "/:medicineId",
+  RequestValidator(
+    requestSchemas.medicineRoutesSchemas.createOrUpdateMedicine.headers,
+    "headers",
+  ),
+  medicineController.getMedicineById,
 );
 
 router.delete(
-    "/:medicineId",
-    RequestValidator(
-        requestSchemas.medicineRoutesSchemas.createOrUpdateMedicine.headers,
-        "headers"
-    ),
-    medicineController.deleteMedicineById
+  "/:medicineId",
+  RequestValidator(
+    requestSchemas.medicineRoutesSchemas.createOrUpdateMedicine.headers,
+    "headers",
+  ),
+  medicineController.deleteMedicineById,
 );
 
 export default router;

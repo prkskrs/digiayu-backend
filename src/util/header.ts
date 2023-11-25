@@ -7,15 +7,15 @@
 }
  */
 export const parseLinkHeader = (data: string): { next?: string } => {
-  const links = data.split(',');
+  const links = data.split(",");
   const result = {};
   for (const link of links) {
     if (link.length === 0) {
       continue;
     }
-    const temp = link.split(';');
-    const key = temp[1].split('=')[1].replace('"', '').replace('"', '');
-    const value = temp[0].replace('<', '').replace('>', '').trim();
+    const temp = link.split(";");
+    const key = temp[1].split("=")[1].replace('"', "").replace('"', "");
+    const value = temp[0].replace("<", "").replace(">", "").trim();
     result[key] = value;
   }
   return result;
@@ -40,14 +40,14 @@ interface link {
 }
  */
 export const sentryParseLinkHeader = (data: string): { next?: link } => {
-  const links = data.split(',');
+  const links = data.split(",");
   const result = {};
   for (const link of links) {
-    const temp = link.split(';');
-    const key = temp[1].split('=')[1].replace('"', '').replace('"', '');
-    const value = temp[0].replace('<', '').replace('>', '').trim();
-    const bools = temp[2].split('=')[1].replace('"', '').replace('"', '');
-    const results = bools == 'true' ? true : false;
+    const temp = link.split(";");
+    const key = temp[1].split("=")[1].replace('"', "").replace('"', "");
+    const value = temp[0].replace("<", "").replace(">", "").trim();
+    const bools = temp[2].split("=")[1].replace('"', "").replace('"', "");
+    const results = bools == "true" ? true : false;
     result[key] = { value, results };
   }
   return result;

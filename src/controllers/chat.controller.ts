@@ -44,13 +44,13 @@ export default class ChatController {
       let doctor_id,
         patient_id,
         common_id = null;
-      let role = null;
+      const role = null;
 
       const patientExists = await this.database.getOne(
         Constants.COLLECTIONS.PATIENT,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (patientExists) {
@@ -61,7 +61,7 @@ export default class ChatController {
         Constants.COLLECTIONS.DOCTOR,
         {
           user_id: userId,
-        }
+        },
       );
 
       if (doctorExists) {
@@ -114,7 +114,7 @@ export default class ChatController {
               name: 1,
               email: 1,
               phone: 1,
-              avatar: 1
+              avatar: 1,
             },
             doctor: {
               _id: 1,

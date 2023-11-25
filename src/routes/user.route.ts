@@ -1,5 +1,5 @@
-import express from 'express';
-import { Container } from 'typedi';
+import express from "express";
+import { Container } from "typedi";
 const router = express.Router();
 
 // import checkJwt from "../../middlewares/checkJwt";
@@ -9,7 +9,5 @@ const router = express.Router();
 // const userControllers = Container.get(UserControllers);
 
 // router.get('/me', userControllers.getMe);
-
-
 
 export default router;

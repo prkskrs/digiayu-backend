@@ -4,13 +4,13 @@ import { NextFunction, Request, Response } from "express";
 const decodeMiddleware = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const code = (req.query.code || req.body.code) as string;
   if (!code) {
     return res.status(400).json({ error: "Empty code value" });
   }
-  let secret = process.env.JWT_SECRET;
+  const secret = process.env.JWT_SECRET;
   try {
     const decoded = jwt.verify(code, secret);
     const body = req.body as Record<string, unknown>;

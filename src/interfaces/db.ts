@@ -61,13 +61,13 @@ export interface Order {
   delivery_charge: number;
   total_amount: number;
   order_status:
-  | "accepted"
-  | "rejected"
-  | "cancelled"
-  | "delivered"
-  | "out_for_delivery"
-  | "ready_for_pickup"
-  | "preparing";
+    | "accepted"
+    | "rejected"
+    | "cancelled"
+    | "delivered"
+    | "out_for_delivery"
+    | "ready_for_pickup"
+    | "preparing";
   order_items: OrderItem[];
   createdAt: Date;
   updatedAt: Date;
@@ -105,16 +105,16 @@ export interface Offer {
   status: "active" | "inactive";
   offer_type: "percentage" | "flat";
   offer_for:
-  | "all"
-  | "specific_days"
-  | "birthday"
-  | "anniversary"
-  | "cart_value"
-  | "specific_product"
-  | "specific_category"
-  | "specific_sub_category"
-  | "occasion"
-  | "specific_user";
+    | "all"
+    | "specific_days"
+    | "birthday"
+    | "anniversary"
+    | "cart_value"
+    | "specific_product"
+    | "specific_category"
+    | "specific_sub_category"
+    | "occasion"
+    | "specific_user";
   specific_days?: string[];
   cart_value?: number;
   specific_product_id?: ObjectId;
@@ -305,7 +305,7 @@ export interface Prescription {
       dosage: string;
       duration: string;
       remarks: string;
-    }
+    },
   ];
 }
 
@@ -317,9 +317,9 @@ export interface TreatmentPlan {
   assignedPlans: [
     {
       treatment_plan: ObjectId;
-      discount: Number;
-      cost: Number;
-    }
+      discount: number;
+      cost: number;
+    },
   ];
 }
 
@@ -331,8 +331,8 @@ export interface LabOrder {
   assingedLabOrders: [
     {
       lab_test: ObjectId;
-      discount: Number;
-    }
+      discount: number;
+    },
   ];
 }
 
@@ -373,7 +373,6 @@ export interface Medicine {
   warnings: string[];
   imageUrl: string;
 }
-
 
 export interface Notification {
   _id?: ObjectId;

@@ -53,7 +53,7 @@ export default class UserControllers {
     const { requestId, otp } = req.body;
     const otpDoc = await this.database.getById(
       Constants.COLLECTIONS.OTP,
-      requestId
+      requestId,
     );
     if (!otpDoc) {
       return res.status(400).json({
@@ -96,16 +96,16 @@ export default class UserControllers {
         createdAt: 1,
         updatedAt: 1,
         dob: 1,
-      }
+      },
     );
     if (userDoc) {
       const token = createAcessToken({
         userId: String(userDoc._id),
-        role: String(userDoc.role)
+        role: String(userDoc.role),
       });
       const refreshToken = createRefreshToken({
         userId: String(userDoc._id),
-        role: String(userDoc.role)
+        role: String(userDoc.role),
       });
 
       const responseData = {
@@ -120,7 +120,7 @@ export default class UserControllers {
           Constants.COLLECTIONS.DOCTOR,
           {
             user_id: userDoc._id,
-          }
+          },
         );
         if (!doctorDoc) {
           return res.status(400).json({
@@ -136,7 +136,7 @@ export default class UserControllers {
           Constants.COLLECTIONS.PATIENT,
           {
             user_id: userDoc._id,
-          }
+          },
         );
         if (!patientDoc) {
           return res.status(400).json({
@@ -206,7 +206,7 @@ export default class UserControllers {
       Constants.COLLECTIONS.USER,
       {
         phone,
-      }
+      },
     );
     if (existingUserDoc) {
       return res.status(409).json({
@@ -228,7 +228,7 @@ export default class UserControllers {
         },
         {
           _id: 1,
-        }
+        },
       );
       if (reffer) {
         reffered_by = reffer[0]._id;
@@ -327,7 +327,7 @@ export default class UserControllers {
       Constants.COLLECTIONS.USER,
       {
         phone,
-      }
+      },
     );
     if (existingUserDoc) {
       return res.status(409).json({
@@ -349,7 +349,7 @@ export default class UserControllers {
         },
         {
           _id: 1,
-        }
+        },
       );
       if (reffer) {
         reffered_by = reffer[0]._id;
@@ -429,11 +429,11 @@ export default class UserControllers {
     }
     const token = createAcessToken({
       userId: String(userDoc._id),
-      role: String(userDoc.role)
+      role: String(userDoc.role),
     });
     const refreshToken = createRefreshToken({
       userId: String(userDoc._id),
-      role: String(userDoc.role)
+      role: String(userDoc.role),
     });
     userDoc.password = undefined;
 
@@ -448,7 +448,7 @@ export default class UserControllers {
         Constants.COLLECTIONS.DOCTOR,
         {
           user_id: userDoc._id,
-        }
+        },
       );
       if (!doctorDoc) {
         return res.status(400).json({
@@ -464,7 +464,7 @@ export default class UserControllers {
         Constants.COLLECTIONS.PATIENT,
         {
           user_id: userDoc._id,
-        }
+        },
       );
       if (!patientDoc) {
         return res.status(400).json({
@@ -506,7 +506,7 @@ export default class UserControllers {
       {
         password: hashPassword(newPassword),
         updatedAt: new Date(),
-      }
+      },
     );
     return res.status(200).json({
       success: true,

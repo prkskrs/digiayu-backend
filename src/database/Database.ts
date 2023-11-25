@@ -26,7 +26,7 @@ const uri =
   process.env.NODE_ENV === "localhost"
     ? "mongodb://localhost:27017/" + process.env.DATABASE_NAME
     : `mongodb+srv://${process.env.DATABASE_USERNAME}:` +
-    `${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}`;
+      `${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}`;
 
 const dbName = process.env.DATABASE_NAME;
 
@@ -92,11 +92,11 @@ export class Database {
   public getById = async <
     CollectionName extends keyof DbSchema,
     K extends Projection<Partial<DbSchema[CollectionName]>>,
-    T extends Pick<DbSchema[CollectionName], keyof DbSchema[CollectionName]>
+    T extends Pick<DbSchema[CollectionName], keyof DbSchema[CollectionName]>,
   >(
     collectionName: CollectionName,
     id: string,
-    projection?: K
+    projection?: K,
   ): Promise<T | null> => {
     try {
       const item = await db
@@ -111,7 +111,7 @@ export class Database {
   public updateById = async <T extends keyof DbSchema>(
     table: T,
     id: ObjectId,
-    object: Partial<DbSchema[T]>
+    object: Partial<DbSchema[T]>,
   ) => {
     const item = await db
       .collection(table)
@@ -121,7 +121,7 @@ export class Database {
   public updateArray = async <T extends keyof DbSchema>(
     table: T,
     id: ObjectId,
-    object: any
+    object: any,
   ) => {
     const item = await db
       .collection(table)
@@ -132,7 +132,7 @@ export class Database {
     table: T,
     query: Partial<DbSchema[T]>,
     object,
-    arrayFilter?
+    arrayFilter?,
   ) => {
     const item = await db.collection(table).updateMany(
       query,
@@ -140,14 +140,14 @@ export class Database {
       {
         upsert: true,
         arrayFilters: arrayFilter,
-      }
+      },
     );
     return item;
   };
 
   public add = async <T extends keyof DbSchema>(
     table: T,
-    item: DbSchema[T]
+    item: DbSchema[T],
   ) => {
     const addedItem = await db.collection(table).insertOne(item);
     return addedItem;
@@ -155,7 +155,7 @@ export class Database {
 
   public delete = async <T extends keyof DbSchema>(
     table: T,
-    query: Partial<DbSchema[T]>
+    query: Partial<DbSchema[T]>,
   ) => {
     const item = await db.collection(table).deleteOne(query);
     return item;
@@ -164,7 +164,7 @@ export class Database {
   public updateByMultipleKeys = async <T extends keyof DbSchema>(
     table: T,
     selectorKeys,
-    object
+    object,
   ) => {
     const item = await db
       .collection(table)
@@ -174,7 +174,7 @@ export class Database {
 
   public get = async <
     CollectionName extends keyof DbSchema,
-    K extends Projection<Partial<DbSchema[CollectionName]>>
+    K extends Projection<Partial<DbSchema[CollectionName]>>,
   >(
     collection: CollectionName,
     query: Filter<DbSchema[CollectionName]>,
@@ -182,7 +182,7 @@ export class Database {
     desc?: boolean,
     limit?: number,
     skip?: number,
-    projection?: K
+    projection?: K,
   ): Promise<Array<
     Pick<DbSchema[CollectionName], keyof DbSchema[CollectionName]>
   > | null> => {
@@ -230,7 +230,7 @@ export class Database {
 
   public getCount = async <CollectionName extends keyof DbSchema>(
     collection: CollectionName,
-    query: Filter<DbSchema[CollectionName]>
+    query: Filter<DbSchema[CollectionName]>,
   ) => {
     try {
       // @ts-ignore
@@ -245,7 +245,7 @@ export class Database {
 
   public aggregate = async <CollectionName extends keyof DbSchema>(
     collection: CollectionName,
-    pipeline
+    pipeline,
   ) => {
     try {
       return await db.collection(collection).aggregate(pipeline).toArray();
@@ -257,12 +257,12 @@ export class Database {
   };
   public getOne = async <
     CollectionName extends keyof DbSchema,
-    K extends Projection<Partial<DbSchema[CollectionName]>>
+    K extends Projection<Partial<DbSchema[CollectionName]>>,
   >(
     collection: CollectionName,
     query: Filter<DbSchema[CollectionName]>,
 
-    projection?: K
+    projection?: K,
   ): Promise<Pick<
     DbSchema[CollectionName],
     keyof DbSchema[CollectionName]

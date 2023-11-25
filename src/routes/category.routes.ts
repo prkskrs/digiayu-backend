@@ -1,10 +1,9 @@
-import express from 'express';
-import { Container } from 'typedi';
+import express from "express";
+import { Container } from "typedi";
 const router = express.Router();
-import RequestValidator from '../middlewares/validator';
-import requestSchemas from './requestSchemas';
-import CategoryControllers from '../controllers/category.controller';
-
+import RequestValidator from "../middlewares/validator";
+import requestSchemas from "./requestSchemas";
+import CategoryControllers from "../controllers/category.controller";
 
 const categoryControllers = Container.get(CategoryControllers);
 
@@ -15,9 +14,6 @@ const categoryControllers = Container.get(CategoryControllers);
 //   categoryControllers.create,
 // );
 
-router.get(
-    '/',
-    categoryControllers.list,
-  );
+router.get("/", categoryControllers.list);
 
 export default router;
